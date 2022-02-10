@@ -6,30 +6,48 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-@Table(name = "payroll_db")
+@Table(name = "employee_payrolldb")
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public @Data class EmployeePayrollData
 {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "employee_id")
     private int employeeId;
+
     @Column(name = "name")
     private String name;
     private long salary;
+    private String gender;
+    private LocalDate startDate;
+    private String note;
+    private String profilePic;
 
-    public EmployeePayrollData(int empId, EmployeePayrollDTO employeePayrollDTO)
+    @ElementCollection
+    @CollectionTable(name = "employee_department", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "department")
+    private List<String> departments;
+
+    public EmployeePayrollData(EmployeePayrollDTO employeePayrollDTO)
     {
-        this.employeeId = empId;
+        this.updateEmployeePayrollData(employeePayrollDTO);
+    }
+    public void updateEmployeePayrollData(EmployeePayrollDTO employeePayrollDTO)
+    {
         this.name = employeePayrollDTO.name;
         this.salary = employeePayrollDTO.salary;
+        this.gender = employeePayrollDTO.gender;
+        this.startDate = employeePayrollDTO.startDate;
+        this.note = employeePayrollDTO.note;
+        this.profilePic = employeePayrollDTO.profilePic;
+        this.departments = employeePayrollDTO.departments;
     }
-
-
 }
