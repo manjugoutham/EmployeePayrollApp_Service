@@ -20,7 +20,7 @@ public @Data class EmployeePayrollData
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "employee_id")
+    @Column(name = "employee_")
     private int employeeId;
 
     @Column(name = "name")
